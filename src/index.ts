@@ -25,16 +25,18 @@ mkdirSync(resolve('jobs/'), {
   recursive: true,
 });
 
-frontPrinterServer.on('data', async (handledJob, data) => {
+frontPrinterServer.on('data', async (handledJob, _, request) => {
+  let buffer = request.body as Buffer;
   const createdAt = new Date(handledJob.createdAt);
   const jobId = handledJob['job-id'];
+  const filename = `${handledJob.createdAt}-${jobId}`;
   console.log(
-    `job saved in "jobs/${jobId}-${handledJob.createdAt}": jobId ${jobId} createdAt ${createdAt}`,
+    `job saved in "jobs/${filename}": jobId ${jobId} createdAt ${createdAt}`,
   );
-  return writeFileSync(
-    resolve(`jobs/${jobId}-${handledJob.createdAt}.prn`),
-    data,
-  );
+  // check it is ufr (end_byte 03, CDCA101000)
+  const index = buffer.indexOf('03CDCA101000', 0, 'hex') + 1;
+  buffer = buffer.subarray(index);
+  writeFileSync(resolve(`jobs/`, filename + '.ufr'), buffer);
 });
 
 frontPrinterServer.server.engine('mustache', mustacheExpress());
