@@ -1,5 +1,5 @@
 import { resolve } from 'path';
-import { Printer } from './virtual-printer/printer/printer';
+import { Printer } from './virtual-printer/printer/printer.js';
 import mustacheExpress from 'mustache-express';
 import { static as expressStatic } from 'express';
 import { mkdirSync, writeFileSync } from 'fs';
