@@ -31,7 +31,10 @@ frontPrinterServer.on('data', async (handledJob, data) => {
   console.log(
     `job saved in "jobs/${jobId}-${handledJob.createdAt}": jobId ${jobId} createdAt ${createdAt}`,
   );
-  return writeFileSync(resolve('jobs/'), data);
+  return writeFileSync(
+    resolve(`jobs/${jobId}-${handledJob.createdAt}.prn`),
+    data,
+  );
 });
 
 frontPrinterServer.server.engine('mustache', mustacheExpress());

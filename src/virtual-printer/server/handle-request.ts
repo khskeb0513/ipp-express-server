@@ -2,7 +2,7 @@ import { Printer } from '../printer/printer.js';
 import { HandledJob } from '../printer/vos/handled-job.js';
 import { ParsedBodyInterface } from './interfaces/parsed-body.js';
 import { Request } from 'express';
-import * as ipp from 'ipp';
+import ipp from 'ipp';
 
 export function printJob(
   printer: Printer,
@@ -14,10 +14,14 @@ export function printJob(
   try {
     requestingUserName =
       parsedBody['operation-attributes-tag']['requesting-user-name'];
-  } catch {}
+  } catch {
+    /* empty */
+  }
   try {
     jobName = parsedBody['operation-attributes-tag']['job-name'];
-  } catch {}
+  } catch {
+    /* empty */
+  }
   const handledJob = new HandledJob(
     printer.handledJobs,
     jobName,
