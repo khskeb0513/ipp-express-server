@@ -14,7 +14,7 @@ export const frontPrinterServer = new Printer({
   description: 'FILTER_PRINTER',
   bonjour: false,
   format: [FileType.POSTSCRIPT],
-  serverUrl: new URL('http://127.0.0.1:3000'),
+  serverUrl: new URL('http://0.0.0.0:3000'),
 });
 
 frontPrinterServer.on('server-opened', (error) =>
