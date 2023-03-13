@@ -26,13 +26,10 @@ mkdirSync(resolve('jobs/'), {
 });
 
 frontPrinterServer.on('data', async (handledJob, _, request) => {
+  console.log(request.headers, handledJob);
   let buffer = request.body as Buffer;
-  const createdAt = new Date(handledJob.createdAt);
   const jobId = handledJob['job-id'];
   const filename = `${handledJob.createdAt}-${jobId}`;
-  console.log(
-    `job saved in "jobs/${filename}": jobId ${jobId} createdAt ${createdAt}`,
-  );
   // check it is ufr (end_byte 03, CDCA101000)
   const index = buffer.indexOf('03CDCA101000', 0, 'hex') + 1;
   buffer = buffer.subarray(index);
